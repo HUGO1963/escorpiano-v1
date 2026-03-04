@@ -22,15 +22,9 @@ def home():
 @app.route('/status')
 def status():
     try:
-        url = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(url, headers=headers).json()
-        if isinstance(res, list) and len(res) > 0:
-            precios = [float(f[4]) for f in res]
-        else:
-            return jsonify({"error": "Binance no respondio bien", "respuesta": str(res)})
-        precio = precios[-1]
-        rsi = rsi_simple(precios)
+        url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        res = requests.get(url).json()
+        precio = res['bitcoin']['usd']
         
         # Lógica de trading
         if 60000 < precio < 95000:
