@@ -4,20 +4,11 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Datos del bot
 bot_data = {'position': 0, 'last_op': "NINGUNA", 'balance': 100}
-
-def rsi_simple(precios):
-    if len(precios) < 14: return 50
-    subidas = [precios[i] - precios[i-1] for i in range(1, len(precios)) if precios[i] > precios[i-1]]
-    bajadas = [precios[i-1] - precios[i] for i in range(1, len(precios)) if precios[i] < precios[i-1]]
-    prom_s = sum(subidas) / 14 if subidas else 0
-    prom_b = sum(bajadas) / 14 if bajadas else 0.001
-    return round(100 - (100 / (1 + (prom_s / prom_b))), 2)
 
 @app.route('/')
 def home():
-    return f"<h1>BOT ESCORPIANO V1 - SALDO: ${bot_data['balance']}</h1>"
+    return f"<h1>ESCORPIANO V1 - SALDO: ${bot_data['balance']}</h1>"
 
 @app.route('/status')
 def status():
@@ -26,16 +17,11 @@ def status():
         res = requests.get(url).json()
         precio = res['bitcoin']['usd']
         
-        # Lógica de trading
-        if 60000 < precio < 95000:
-            if rsi < 30 and bot_data['position'] == 0:
-                bot_data['position'] = 1
-                bot_data['last_op'] = f"COMPRADO A {precio}"
-            elif rsi > 70 and bot_data['position'] == 1:
-                bot_data['position'] = 0
-                bot_data['last_op'] = f"VENDIDO A {precio}"
-                
-        return jsonify({"price": precio, "rsi": rsi, "last_op": bot_data['last_op']})
+        return jsonify({
+            "status": "online",
+            "price": precio,
+            "last_op": bot_data['last_op']
+        })
     except Exception as e:
         return jsonify({"error": "Error de conexion", "detalle": str(e)})
 
