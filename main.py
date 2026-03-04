@@ -25,7 +25,10 @@ def status():
         url = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
         headers = {'User-Agent': 'Mozilla/5.0'}
         res = requests.get(url, headers=headers).json()
-        precios = [float(f[4]) for f in res]
+        if isinstance(res, list) and len(res) > 0:
+            precios = [float(f[4]) for f in res]
+        else:
+            return jsonify({"error": "Binance no respondio bien", "respuesta": str(res)})
         precio = precios[-1]
         rsi = rsi_simple(precios)
         
