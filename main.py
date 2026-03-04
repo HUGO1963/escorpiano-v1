@@ -9,7 +9,7 @@ def home():
     <body style="background:#000; color:#eee; font-family:sans-serif; text-align:center; padding:10px; margin:0;">
         <div style="display:flex; justify-content: space-between; align-items: center; background:#111; padding:10px 20px; border:1px solid #333; margin-bottom:10px; border-radius:8px;">
             <div style="text-align:left;">
-                <div style="color:#888; font-size:0.8em;">BTC/USDT</div>
+                <div style="color:#888; font-size:0.8em;">BTC/USDT (1s)</div>
                 <div id="price" style="color:#fa0; font-size:1.8em; font-weight:bold;">Cargando...</div>
             </div>
             
@@ -19,7 +19,7 @@ def home():
             </button>
         </div>
 
-        <div id="status" style="color:#4f4; font-size:0.7em; margin-bottom:10px;">CONEXIÓN LOCAL ACTIVA ✅</div>
+        <div id="status" style="color:#4f4; font-size:0.7em; margin-bottom:10px;">VELOCIDAD: 1 SEGUNDO ✅</div>
         
         <div style="height:550px; border-radius:8px; overflow:hidden; border:1px solid #333;">
             <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=1&theme=dark" width="100%" height="100%" frameborder="0"></iframe>
@@ -37,7 +37,8 @@ def home():
                         document.getElementById('price').innerText = "ERROR";
                     });
             }
-            setInterval(getPrice, 3000); 
+            // Cambiado a 1000ms (1 segundo)
+            setInterval(getPrice, 1000); 
             getPrice();
         </script>
     </body>
