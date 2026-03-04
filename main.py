@@ -13,23 +13,24 @@ def home():
 @app.route('/status')
 def status():
     try:
-        # API de CoinGecko
+        # Usamos una URL de CoinGecko que devuelve el dato mas simple
         url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-        res = requests.get(url).json()
+        response = requests.get(url)
+        res_json = response.json()
         
-        # Extraer el precio correctamente
-        if 'bitcoin' in res:
-            precio = res['bitcoin']['usd']
+        # Verificamos si el dato existe antes de mostrarlo
+        if 'bitcoin' in res_json:
+            precio = res_json['bitcoin']['usd']
             return jsonify({
                 "status": "online",
                 "price": precio,
                 "last_op": bot_data['last_op']
             })
         else:
-            return jsonify({"error": "Dato no encontrado", "respuesta": str(res)})
+            return jsonify({"error": "No se encontro el precio", "respuesta_api": res_json})
             
     except Exception as e:
-        return jsonify({"error": "Error de conexion", "detalle": str(e)})
+        return jsonify({"error": "Fallo la conexion", "detalle": str(e)})
 
 if __name__ == '__main__':
     from waitress import serve
