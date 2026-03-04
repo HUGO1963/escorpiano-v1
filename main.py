@@ -24,7 +24,8 @@ def home():
 def status():
     try:
         url = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
-        res = requests.get(url).json()
+       headers = {'User-Agent': 'Mozilla/5.0'}
+res = requests.get(url, headers=headers).json()
         precios = [float(f[4]) for f in res]
         precio = precios[-1]
         rsi = rsi_simple(precios)
