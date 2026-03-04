@@ -57,7 +57,7 @@ def home():
                     document.getElementById('last_op').innerText = d.last_op;
                 } catch(e){}
             }
-            setInterval(actualizar, 4000);
+            setInterval(actualizar, 1000);
             actualizar();
         </script>
     </body>
