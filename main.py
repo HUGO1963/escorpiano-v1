@@ -13,15 +13,21 @@ def home():
 @app.route('/status')
 def status():
     try:
+        # API de CoinGecko
         url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
         res = requests.get(url).json()
-        precio = res['bitcoin']['usd']
         
-        return jsonify({
-            "status": "online",
-            "price": precio,
-            "last_op": bot_data['last_op']
-        })
+        # Extraer el precio correctamente
+        if 'bitcoin' in res:
+            precio = res['bitcoin']['usd']
+            return jsonify({
+                "status": "online",
+                "price": precio,
+                "last_op": bot_data['last_op']
+            })
+        else:
+            return jsonify({"error": "Dato no encontrado", "respuesta": str(res)})
+            
     except Exception as e:
         return jsonify({"error": "Error de conexion", "detalle": str(e)})
 
