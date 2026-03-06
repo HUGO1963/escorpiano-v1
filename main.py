@@ -4,9 +4,9 @@ from flask import Flask, jsonify, render_template_string
 app = Flask(__name__)
 
 # --- CONFIGURACIÓN DEL ESCORPIANO ---
-PRECIO_MIN = 68000
-PRECIO_MAX = 78000
-bot_data = {'position': 0, 'last_op': "ESPERANDO RSI", 'balance': 100, 'precios': []}
+PRECIO_MIN = 62000
+PRECIO_MAX = 72000
+bot_data = {'position': 0, 'last_op': "ESPERANDO RSI", 'balance': 697, 'precios': []}
 
 def calcular_rsi_simple(precios, periodo=14):
     if len(precios) < periodo + 1: return 50
