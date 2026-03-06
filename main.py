@@ -25,7 +25,7 @@ def home():
     html = """
     <html>
         <body style="background:#131722; color:white; font-family:sans-serif; text-align:center;">
-            <h1 style="color:orange;">🦂 ESCORPIANO V1 - RANGO 68k-78k</h1>
+            <h1 style="color:orange;">🦂 ESCORPIANO V1 - RANGO 62k-72k</h1>
             <div style="display:flex; justify-content:space-around; font-size:22px; background:#1e222d; padding:15px; border-radius:10px;">
                 <p>Saldo: <b>$<span id="balance">{{balance}}</span></b></p>
                 <p>RSI: <b><span id="rsi_val">--</span></b></p>
