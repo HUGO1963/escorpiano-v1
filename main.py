@@ -11,12 +11,18 @@ PRECIO_MAX = 72000
 bot_data = {'position': 0, 'last_op': "ESPERANDO DATOS", 'balance': 697, 'precios': [], 'rsi': 0}
 
 def obtener_precio_binance():
-    try:
-        url = "https://api.binance.com/api/3/ticker/price?symbol=BTCUSDT"
-        res = requests.get(url)
-        return float(res.json()['price'])
-    except:
-        return None
+    # Probamos con dos caminos distintos por si uno está bloqueado
+    urls = [
+        "https://api.binance.com/api/3/ticker/price?symbol=BTCUSDT",
+        "https://api1.binance.com/api/3/ticker/price?symbol=BTCUSDT"
+    ]
+    for url in urls:
+        try:
+            res = requests.get(url, timeout=5)
+            return float(res.json()['price'])
+        except:
+            continue
+    return "Error de Conexión"
 
 def actualizar_bot():
     while True:
