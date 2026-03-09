@@ -10,24 +10,19 @@ PRECIO_MIN = 62000
 PRECIO_MAX = 72000
 bot_data = {'position': 0, 'last_op': "ESPERANDO DATOS", 'balance': 697, 'precios': [], 'rsi': 0}
 
-def obtener_precio_binance():
-    # Probamos con dos caminos distintos por si uno está bloqueado
-    urls = [
-        "https://api.binance.com/api/3/ticker/price?symbol=BTCUSDT",
-        "https://api1.binance.com/api/3/ticker/price?symbol=BTCUSDT"
-    ]
-    for url in urls:
-        try:
-            res = requests.get(url, timeout=5)
-            return float(res.json()['price'])
-        except:
-            continue
-    return "Error de Conexión"
+def obtener_precio():
+    try:
+        # Usamos CoinGecko como Plan B infalible
+        url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        res = requests.get(url, timeout=10)
+        return float(res.json()['bitcoin']['usd'])
+    except:
+        return "Error de Red"
 
 def actualizar_bot():
     while True:
-        precio = obtener_precio_binance()
-        if precio:
+        precio = obtener_precio()
+        if precio and precio != "Error de Red":
             bot_data['precios'].append(precio)
             if len(bot_data['precios']) > 50:
                 bot_data['precios'].pop(0)
